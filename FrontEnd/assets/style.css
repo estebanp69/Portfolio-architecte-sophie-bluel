@@ -186,3 +186,45 @@ footer nav ul {
 	margin: 2em
 }
 
+
+/* Conteneur des filtres */
+#portfolio .filters {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+/* Boutons de filtrage */
+.filter-button {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1D6154;
+    background-color: white;
+    border: 1px solid #1D6154;
+    border-radius: 60px;
+    padding: 9px 20px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Bouton sélectionné */
+.filter-button.active {
+    color: white;
+    background-color: #1D6154;
+}
+
+/* Survol */
+.filter-button:hover {
+    color: white;
+    background-color: #1D6154;
+}
+
+/* Accessibilité clavier */
+.filter-button:focus-visible {
+    outline: 2px solid #B1663C;
+    outline-offset: 3px;
+}
