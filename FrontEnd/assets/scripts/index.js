@@ -1,12 +1,53 @@
 
 const gallery = document.querySelector(".gallery");
 const filtersContainer = document.querySelector("#filters");
+const loginLink = document.querySelector("#login-link");
+const editBanner = document.querySelector("#edit-banner");
+const editButton = document.querySelector("#edit-button");
 
 let allWorks = [];
 
+// Vérifier si un token est enregistré
+function isLoggedIn() {
+    return Boolean(localStorage.getItem("token"));
+}
+
+// Adapter l'affichage selon l'état de connexion
+function updatePageForAuthentication() {
+    const connected = isLoggedIn();
+
+    editBanner.style.display = connected ? "flex" : "none";
+    editButton.style.display = connected ? "inline-flex" : "none";
+    filtersContainer.style.display = connected ? "none" : "flex";
+
+    if (connected) {
+        loginLink.textContent = "logout";
+        loginLink.href = "#";
+        loginLink.removeAttribute("aria-current");
+    } else {
+        loginLink.textContent = "login";
+        loginLink.href = "./login.html";
+    }
+}
+
+// Gérer la connexion et la déconnexion
+loginLink.addEventListener("click", (event) => {
+    if (isLoggedIn()) {
+        event.preventDefault();
+
+        localStorage.removeItem("token");
+
+        updatePageForAuthentication();
+        displayFiltersAfterLogout();
+    }
+});
+
+// Charger les projets depuis l'API
 async function getWorks() {
     try {
-        const response = await fetch("http://localhost:5678/api/works");
+        const response = await fetch(
+            "http://localhost:5678/api/works"
+        );
 
         if (!response.ok) {
             throw new Error(`Erreur HTTP : ${response.status}`);
@@ -15,13 +56,19 @@ async function getWorks() {
         allWorks = await response.json();
 
         displayWorks(allWorks);
-        getCategories();
+
+        if (!isLoggedIn()) {
+            await getCategories();
+        }
     } catch (error) {
-        console.error("Erreur lors du chargement des projets :", error);
+        console.error(
+            "Erreur lors du chargement des projets :",
+            error
+        );
     }
 }
 
-// Afficher les projets dans la galerie
+// Afficher les projets
 function displayWorks(works) {
     gallery.innerHTML = "";
 
@@ -40,10 +87,12 @@ function displayWorks(works) {
     });
 }
 
-// Récupérer les catégories depuis l'API
+// Récupérer les catégories
 async function getCategories() {
     try {
-        const response = await fetch("http://localhost:5678/api/categories");
+        const response = await fetch(
+            "http://localhost:5678/api/categories"
+        );
 
         if (!response.ok) {
             throw new Error(`Erreur HTTP : ${response.status}`);
@@ -51,9 +100,15 @@ async function getCategories() {
 
         const categories = await response.json();
 
-        displayFilters(categories);
+        // Ne pas créer de filtres en mode édition
+        if (!isLoggedIn()) {
+            displayFilters(categories);
+        }
     } catch (error) {
-        console.error("Erreur lors du chargement des catégories :", error);
+        console.error(
+            "Erreur lors du chargement des catégories :",
+            error
+        );
     }
 }
 
@@ -61,7 +116,6 @@ async function getCategories() {
 function displayFilters(categories) {
     filtersContainer.innerHTML = "";
 
-    // Bouton Tous : affiche tous les projets
     const allButton = document.createElement("button");
     allButton.textContent = "Tous";
     allButton.classList.add("filter-button", "active");
@@ -74,7 +128,6 @@ function displayFilters(categories) {
 
     filtersContainer.appendChild(allButton);
 
-    // Un bouton pour chaque catégorie de l'API
     categories.forEach((category) => {
         const button = document.createElement("button");
 
@@ -95,9 +148,10 @@ function displayFilters(categories) {
     });
 }
 
-// Mettre à jour le style du bouton sélectionné
+// Mettre à jour le filtre actif
 function setActiveFilter(activeButton) {
-    const buttons = filtersContainer.querySelectorAll(".filter-button");
+    const buttons =
+        filtersContainer.querySelectorAll(".filter-button");
 
     buttons.forEach((button) => {
         button.classList.remove("active");
@@ -108,5 +162,19 @@ function setActiveFilter(activeButton) {
     activeButton.setAttribute("aria-pressed", "true");
 }
 
-// Chargement initial
+// Réafficher les filtres après déconnexion
+function displayFiltersAfterLogout() {
+    filtersContainer.style.display = "flex";
+
+    // Recréer les filtres seulement s'ils ont été vidés
+    if (!filtersContainer.querySelector(".filter-button")) {
+        getCategories();
+    }
+
+    // Réinitialiser la galerie avec tous les projets
+    displayWorks(allWorks);
+}
+
+// Initialisation
+updatePageForAuthentication();
 getWorks();
