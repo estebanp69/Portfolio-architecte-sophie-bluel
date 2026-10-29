@@ -346,6 +346,7 @@ footer nav ul {
 /* Bouton modifier */
 #edit-button {
     display: none;
+    margin-top: -27px;
     align-items: center;
     gap: 8px;
     padding: 8px 12px;
@@ -364,4 +365,284 @@ footer nav ul {
 #edit-button:focus-visible {
     outline: 2px solid #B1663C;
     outline-offset: 3px;
+}
+
+#passwordError {
+    color: red;
+}
+
+
+/* ===== Fenêtre modale ===== */
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.35);
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.modal-overlay.is-open {
+    display: flex;
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+.modal-content {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 630px;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    background: #fff;
+    border-radius: 10px;
+    padding: 60px 80px 45px;
+    text-align: center;
+}
+
+.modal-content h2 {
+    color: #000;
+    font-family: "Work Sans", sans-serif;
+    font-size: 26px;
+    font-weight: 400;
+    margin-bottom: 35px;
+}
+
+.modal-close,
+.modal-back {
+    position: absolute;
+    top: 25px;
+    border: none;
+    background: transparent;
+    color: #000;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.modal-close {
+    right: 25px;
+}
+
+.modal-back {
+    left: 25px;
+}
+
+.modal-close:focus-visible,
+.modal-back:focus-visible,
+.delete-work:focus-visible {
+    outline: 2px solid #1D6154;
+    outline-offset: 3px;
+}
+
+.modal-gallery {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+    text-align: left;
+}
+
+.modal-work {
+    position: relative;
+    min-width: 0;
+}
+
+.modal-work img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1.25;
+    object-fit: cover;
+}
+
+.modal-work span {
+    display: block;
+    margin-top: 5px;
+    font-size: 12px;
+}
+
+.delete-work {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+    border: none;
+    border-radius: 3px;
+    background: #000;
+    color: #fff;
+    cursor: pointer;
+}
+
+.modal-separator {
+    height: 1px;
+    margin: 40px 0 25px;
+    background: #B3B3B3;
+}
+
+.modal-primary {
+    display: block;
+    width: 100%;
+    min-height: 36px;
+    margin: 0 auto;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 60px;
+    background: #1D6154;
+    color: #fff;
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.modal-primary:hover:not(:disabled) {
+    background: #0E493F;
+}
+
+.modal-primary:disabled {
+    background: #A7A7A7;
+    cursor: not-allowed;
+}
+
+.fa-image {
+    color: #bfbfbf;
+}
+
+#modal-message {
+    margin-top: 15px;
+    color: #c62828;
+    line-height: 1.4;
+}
+
+#modal-message:empty {
+    display: none;
+}
+
+#add-photo-form {
+    text-align: left;
+}
+
+#add-photo-form[hidden],
+#modal-gallery[hidden],
+#add-photo-button[hidden],
+.modal-back[hidden] {
+    display: none;
+}
+
+#add-photo-form label {
+    display: block;
+    margin: 20px 0 10px;
+}
+
+#add-photo-form input[type="text"],
+#add-photo-form select {
+    box-sizing: border-box;
+    width: 100%;
+    height: 50px;
+    padding: 0 12px;
+    border: none;
+    background: #fff;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.09);
+    font-family: "Work Sans", sans-serif;
+    font-size: 14px;
+}
+
+
+/* ===== Aperçu et ajout d'une photo ===== */
+
+.photo-preview {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 170px;
+    margin-bottom: 25px;
+    overflow: hidden;
+    border-radius: 3px;
+    background: #E8F1F6;
+    color: #306685;
+}
+
+/* Icône image agrandie */
+.photo-preview > i {
+    margin-bottom: 15px;
+    font-size: 65px;
+    color: #B9C5CC;
+}
+
+/* Image sélectionnée */
+.photo-preview img {
+    display: block;
+    max-width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+}
+
+/* Bouton Ajouter photo */
+.photo-file-label {
+    display: block;
+    margin: 0 !important;
+    padding: 10px 25px;
+    border-radius: 50px;
+    background: #CBD6DC;
+    color: #306685;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.photo-file-label:hover {
+    background: #B8C8D1;
+}
+
+/* Champ de sélection de fichier masqué visuellement */
+#photo-file {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+}
+
+/* Texte d'aide */
+.photo-preview p {
+    margin-top: 10px;
+    font-size: 10px;
+    color: #444;
+}
+
+/* Respecter l'attribut hidden malgré les règles flex */
+.photo-preview [hidden] {
+    display: none !important;
+}
+
+#add-photo-form .modal-separator {
+    margin-top: 40px;
+}
+
+@media (max-width: 600px) {
+    .modal-overlay {
+        padding: 12px;
+    }
+
+    .modal-content {
+        padding: 55px 22px 30px;
+    }
+
+    .modal-content h2 {
+        font-size: 22px;
+    }
+
+    .modal-gallery {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+    }
 }

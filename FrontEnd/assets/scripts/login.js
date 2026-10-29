@@ -3,41 +3,25 @@ const emailInput = document.querySelector("#email");
 const passwordInput = document.querySelector("#password");
 const errorMessage = document.querySelector("#login-error");
 
-
-
 function checkdata(email, password) {
     let emailRegExp = new RegExp("[a-z0-9]+@[a-z]+\\.[a-z]+", "i");
+
+    let passwordRegExp = new RegExp("^(?=.*[A-Z])(?=.*[0-9]).{6,}$");
 
     document.getElementById("passwordError").innerText = "";
 
     if (!emailRegExp.test(email)) {
-        document.getElementById("passwordError").innerText =
-            "L'email est invalide !";
         return false;
     }
 
-    if (!/[A-Z]/.test(password)) {
+    if (!passwordRegExp.test(password)) {
         document.getElementById("passwordError").innerText =
-            "Il manque une majuscule.";
-        return false;
-    }
-
-    if (!/[0-9]/.test(password)) {
-        document.getElementById("passwordError").innerText =
-            "Il manque un chiffre.";
-        return false;
-    }
-
-    if (password.length < 6) {
-        document.getElementById("passwordError").innerText =
-            "6 caractères minimum.";
+            "Le mot de passe doit contenir au moins 6 caractères, une majuscule et un chiffre.";
         return false;
     }
 
     return true;
 }
-
-
 
 loginForm.addEventListener("submit", async (event) => {
     event.preventDefault();

@@ -174,6 +174,11 @@ function displayFiltersAfterLogout() {
     displayWorks(allWorks);
 }
 
+// Écouter les changements effectués depuis la modale
+document.addEventListener("works:updated", () => {
+    getWorks();
+});
+
 // Initialisation
 updatePageForAuthentication();
 getWorks();
