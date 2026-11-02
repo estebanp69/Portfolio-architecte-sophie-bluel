@@ -131,7 +131,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const photoFileHelp = modal.querySelector("#photo-file-help");
     const validateButton = modal.querySelector("#validate-photo-button");
 
+    // Se souvient de l'affichage précédant l'ouverture de la modale.
     let previousFocus = null;
+    // Stocke l'adresse temporaire de la photo sélectionnée par l'utilisateur.
     let previewUrl = null;
 
     // Afficher un message à l'utilisateur dans la modale.
@@ -146,9 +148,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Gérer l'aperçu de la photo.
     function togglePhotoPreview(showPreview) {
+        //Si showpreview vaut true, l'image est affichée.
         previewImage.hidden = !showPreview;
+        //Si showpreview vaut true, l'icône est masquée.
         placeholderIcon.hidden = showPreview;
+        //Si showpreview vaut true, le bouton est masqué.
         photoFileLabel.hidden = showPreview;
+        //Si showpreview vaut true, le texte indicatif est masqué.
         photoFileHelp.hidden = showPreview;
     }
 
@@ -170,7 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
         validateButton.disabled = true;
     }
 
-    // Afficher la galerie dans la modale.
+    // Prépare la fenêtre pour montrer la galerie.
     function showGallery() {
         title.textContent = "Galerie photo";
         modalGallery.hidden = false;
@@ -180,7 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
         showMessage("");
     }
 
-    // Afficher le formulaire d'ajout.
+    // Affiche le formulaire pour ajouter une photo.
     function showForm() {
         resetPhotoForm();
 
@@ -201,6 +207,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        // Mémoriser l’élément actif avant d'ouvrir la modale.
         previousFocus = document.activeElement;
 
         showGallery();
@@ -209,6 +216,7 @@ document.addEventListener("DOMContentLoaded", () => {
         modal.setAttribute("aria-hidden", "false");
         document.body.classList.add("modal-open");
 
+        // Placer le curseur sur le bouton « Fermer ».
         closeButton.focus();
 
         loadWorks();
