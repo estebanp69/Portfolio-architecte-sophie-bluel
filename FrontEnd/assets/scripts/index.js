@@ -68,7 +68,7 @@ async function getWorks() {
 }
 
 // Afficher les projets
-function displayWorks(works) {
+export function displayWorks(works) {
     gallery.innerHTML = "";
 
     works.forEach((work) => {

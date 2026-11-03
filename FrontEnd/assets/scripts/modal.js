@@ -1,4 +1,4 @@
-
+import { displayWorks } from "./index.js";
 document.addEventListener("DOMContentLoaded", () => {
     const editButton = document.querySelector("#edit-button");
 
@@ -348,9 +348,7 @@ document.addEventListener("DOMContentLoaded", () => {
             renderGallery();
 
             // Actualiser la galerie principale.
-            document.dispatchEvent(
-                new CustomEvent("works:updated")
-            );
+            displayWorks(works);
 
             showMessage("");
         } catch (error) {
@@ -461,9 +459,7 @@ document.addEventListener("DOMContentLoaded", () => {
             await loadWorks();
 
             // Actualiser la galerie principale.
-            document.dispatchEvent(
-                new CustomEvent("works:updated")
-            );
+            displayWorks(works);
 
             // Retourner à la galerie.
             showGallery();
